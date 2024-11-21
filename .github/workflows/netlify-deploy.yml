@@ -23,7 +23,7 @@ jobs:
 
       - name: Extract app files from the container
         run: |
-          container_id=$(docker create lgleeson123/biztrips-2023-testing:${{ inputs.docker_image_tag }})
+          container_id=$(docker create lgleeson123/biztrips-2023-testing:latest)
           mkdir -p ./app/build
           docker cp $container_id:/app/build ./app/
           docker rm $container_id
