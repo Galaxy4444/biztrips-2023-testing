@@ -1,0 +1,30 @@
+name: Deploy to Netlify
+
+on:
+  workflow_dispatch:
+    inputs:
+      docker_image_tag:
+        description: "The Docker image tag to deploy"
+        default: "latest"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Pull the Docker image
+        run: docker pull lgleeson123/biztrips-2023-testing:${{ github.event.inputs.docker_image_tag }}
+
+      - name: Extract app files from the container
+        run: |
+          container_id=$(docker create lgleeson123/biztrips-2023-testing:${{ github.event.inputs.docker_image_tag }})
+          docker cp $container_id:/app ./app
+          docker rm $container_id
+
+      - name: Deploy to Netlify
+        uses: netlify/actions/cli@v3
+        with:
+          args: deploy --dir=./app/build --prod
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

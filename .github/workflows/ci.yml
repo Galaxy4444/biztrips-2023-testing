@@ -1,0 +1,18 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build -t lgleeson123/biztrips-2023-testing .
+      - name: Log in to Docker Hub
+        run: docker login -u lgleeson123 -p  ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      - name: Push the Docker image
+        run: docker push lgleeson123/m346-ref-card-liam-gleeson
