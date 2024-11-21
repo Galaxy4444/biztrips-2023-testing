@@ -1,13 +1,11 @@
 name: Deploy to Netlify
 
 on:
-  workflow_dispatch:
-    inputs:
-      docker_image_tag:
-        description: "The Docker image tag to deploy"
-        required: true
-        default: "latest"
-        type: string
+  workflow_run:
+    workflows: [ "CI" ]
+    types:
+      - completed
+
 
 jobs:
   deploy:
@@ -21,7 +19,7 @@ jobs:
         uses: docker/setup-docker@v3
 
       - name: Pull the Docker image
-        run: docker pull lgleeson123/biztrips-2023-testing:${{ inputs.docker_image_tag }}
+        run: docker pull lgleeson123/biztrips-2023-testing:latest
 
       - name: Extract app files from the container
         run: |
