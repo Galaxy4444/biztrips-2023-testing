@@ -5,26 +5,41 @@ on:
     inputs:
       docker_image_tag:
         description: "The Docker image tag to deploy"
+        required: true
         default: "latest"
+        type: string
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker
+        uses: docker/setup-docker@v3
+
       - name: Pull the Docker image
-        run: docker pull lgleeson123/biztrips-2023-testing:${{ github.event.inputs.docker_image_tag }}
+        run: docker pull lgleeson123/biztrips-2023-testing:${{ inputs.docker_image_tag }}
 
       - name: Extract app files from the container
         run: |
-          container_id=$(docker create lgleeson123/biztrips-2023-testing:${{ github.event.inputs.docker_image_tag }})
-          docker cp $container_id:/app ./app
+          container_id=$(docker create lgleeson123/biztrips-2023-testing:${{ inputs.docker_image_tag }})
+          mkdir -p ./app/build
+          docker cp $container_id:/app/build ./app/
           docker rm $container_id
 
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
       - name: Deploy to Netlify
-        uses: netlify/actions/cli@v2
-        with:
-          args: deploy --dir=./app/build --prod
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          netlify deploy --dir=./app/build --prod
+
+      - name: Verify Deployment
+        run: |
+          echo "Deployment to Netlify complete. You can check the site at your Netlify URL."
