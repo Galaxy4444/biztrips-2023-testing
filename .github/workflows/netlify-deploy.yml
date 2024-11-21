@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Docker
-        uses: docker/setup-docker@v3
+        uses: docker/setup-buildx-action@v3
 
       - name: Pull the Docker image
         run: docker pull lgleeson123/biztrips-2023-testing:latest
