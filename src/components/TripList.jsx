@@ -13,6 +13,8 @@ function TripList({ addToWishlist }) {
     <Trip addToWishlist={addToWishlist} trip={trip} key={trip.id} />
   ));
 
+  console.log("TripsMapped: ", tripsMapped)
+
   const empty = (
     <section>
       <p className="alert alert-info">Productlist is empty</p>

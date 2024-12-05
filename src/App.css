@@ -56,8 +56,12 @@ header li {
   margin-right: 20px;
 }
 
+.heading {
+  font-size: 20px;
+}
+
 #detail img {
-  max-height: 400;
+  max-height: 400px;
 }
 
 #price {
@@ -70,6 +74,11 @@ header li {
 #products {
   display: flex;
   justify-content: center;
+}
+
+svg{
+  margin-left: 17vw;
+  width: 2.5vw;
 }
 
 .product {
