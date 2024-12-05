@@ -11,9 +11,7 @@ export default function App() {
     const [wishlist, setWishlist] = useState([]); // [1,2,3,4,5
 
 
-    // wishlist functions
     function addToWishlist(trip) {
-        console.log("add to wishlist->", trip);
         const {id, title, description, startTrip, endTrip} = trip;
         setWishlist((trip) => {
             const tripInWishlist = trip.find((t) => t.id === id);
@@ -26,9 +24,7 @@ export default function App() {
     }
 
     function removeFromWishlist(item) {
-        console.log(item);
-        setWishlist((trip) => trip.filter((t) => t.id !== trip.id));
-
+        setWishlist((trip) => trip.filter((t) => t.id !== item.id));
     }
 
 
@@ -36,12 +32,6 @@ export default function App() {
         setWishlist([]);
     }
 
-
-// if month selected then filter the trips from month === month
-
-// if error then throw the error
-
-// shorthand for react fragment
     return (
         <>
             <div>
@@ -49,7 +39,7 @@ export default function App() {
                 <main>
                     <h1>Welcome to biztrips Happy new Year-react - 2024</h1>
 
-                    <Wishlist wishlist={wishlist} removeFromWishlist={() => removeFromWishlist()}
+                    <Wishlist wishlist={wishlist} removeFromWishlist={removeFromWishlist}
                               clearWishlist={() => clearWishlist()}/>
                     {/*   <WishList />*/}
                     <TripList addToWishlist={addToWishlist}/>
