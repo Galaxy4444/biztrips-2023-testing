@@ -17,6 +17,8 @@ const customJestConfig = {
   },
   testEnvironment: 'jest-environment-jsdom',
   verbose: true,
+  moduleFileExtensions: ['js', 'jsx', 'json', 'node'],
+  moduleResolver: { extensions: ['.js', '.jsx'] },
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

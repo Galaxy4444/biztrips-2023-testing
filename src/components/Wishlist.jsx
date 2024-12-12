@@ -19,7 +19,7 @@ export default function Wishlist({wishlist, heartItem, removeFromWishlist, clear
         <tr>
             <td colSpan="4">
                 {" "}
-                <p className="alert alert-info">Wishlist is empty</p>
+                <p data-testid="emptyWishlist" className="alert alert-info">Wishlist is empty</p>
             </td>
         </tr>
     );

@@ -88,7 +88,7 @@ function Trip({ addToWishlist, ...props }) {
               {id}  {title} {trip.startTrip} {trip.endTrip}
           </h6>
 
-          <p className="card-text">{description}</p>
+          <p className="card-text" data-testid="tripDescription">{description}</p>
           <div className="info-wrap row">
             <button
               type="button"

@@ -1,67 +1,70 @@
-import {logRoles, render, screen} from "@testing-library/react";
+import {render, screen} from "@testing-library/react";
 import App from "../App";
-//import useFetch from "./services/useFetch";
-//import {getBusinessTrips} from "./services/tripsService";
-/*
-it("ret without crashing", () => {
-  shallow(<App />);
+import {getAllTrips} from "../services/tripService";
+import {testTrips} from "../components/api";
+
+beforeEach(() => {
+  global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve([testTrips]), // Mock response data
+      })
+  );
 });
-*/
 
-/*it("renders Account header", () => {
-  const wrapper = shallow(<App />);
-  const welcome = <h1>Welcome to biztrips</h1>;
-  expect(wrapper.contains(welcome)).toEqual(true);
-});*/
+afterEach(() => {
+  jest.restoreAllMocks();
+});
 
-test('App renders a heading', () => {
+
+it("ret without crashing", () => {
+  render(<App />);
+});
+
+test('App renders a heading & footer', () => {
   render(<App />)
 
   screen.getByRole('heading', {
     name: "Welcome to biztrips Happy new Year-react - 2024",
   })
 
+  screen.getByTestId('footer', {
+    name: "This site is created for demonstrative purposes only and does not offer\n" +
+        "        any real products or services.",
+  })
+
 });
 
-/*describe("SearchForm", () => {
-  test("renders SearchForm", () => {
-    render(<renderTrip/>);
-    expect(screen.getByRole("heading", { name: /location search/i })
-    ).toBeVisible();
+test('App renders API Content', () => {
+  render(<App />)
 
-    expect(screen.getByRole("textbox", { name: /choose an origin \(optional\)/i })
-    ).toBeVisible();
+  screen.getByTestId('tripDescription', {
+    name: "This site is created for demonstrative purposes only and does not offer\n" +
+        "        any real products or services.",
+  })
+  // Checks for empty List since when initializing, it is empty
+  screen.getByTestId('emptyWishlist', {
+    name: "Wishlist is empty",
+  })
 
-    expect(screen.getByRole("textbox", { name: /choose a destination/i})
-    ).toBeVisible();
 
-    expect(screen.getByRole("button", { name: /search/i })
-    ).toBeVisible();
-  });
-});*/
-//
-// test('the fetch fails with an error', async () => {
-//   await expect(getBusinessTrips()).rejects.toMatch('error');
-// });
-
-// test('the data is peanut butter', async () => {
-//   await expect(getBusinessTrips()).resolves.toContain('San Francisco World Trade Center on new Server/IOT/Client ');
-// });
-
-//
-// test('the data is peanut butter', async () => {
-//   await expect(useFetch()).resolves.toBe('peanut butter');
-// });
-
-//----
-const sum = function sum(a, b) {
-  return a + b;
-};
-test("adds 1 + 2 to equal 3", () => {
-  expect(sum(1, 2)).toBe(3);
 });
 
-//----
-test("two plus two is four", () => {
-  expect(2 + 2).toBe(4);
+test('the fetch fails with an error', async () => {
+  await expect(fetchData()).rejects.toMatch('error');
 });
+
+test('the data is received correctly', async () => {
+  await expect(fetchData()).resolves.toContain('San Francisco World Trade Center on new Server/IOT/Client');
+});
+
+
+async function fetchData() {
+  try {
+    const response = await getAllTrips();
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+}
