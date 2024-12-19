@@ -82,7 +82,7 @@ function WishlistItem(props) {
     let {id, title, description, startTrip, endTrip, hearted} = item;
 
     return (
-        <tr key={id}>
+        <tr key={id} data-testid={`wishlist-item-${id}`}>
             <td>
                 <figure className="media">
 

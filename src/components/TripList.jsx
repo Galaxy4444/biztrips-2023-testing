@@ -17,7 +17,7 @@ function TripList({ addToWishlist }) {
     }, []);
 
   const tripsMapped = trips.map((trip, index) => (
-    <Trip addToWishlist={addToWishlist} trip={trip} key={trip.id} />
+    <Trip addToWishlist={addToWishlist} trip={trip} key={trip.id} data-testid={`trip-item-${trip.id}`}/>
   ));
 
   console.log("TripsMapped: ", tripsMapped)
