@@ -1,7 +1,7 @@
 import {render, screen} from "@testing-library/react";
-import App from "../App";
-import {getAllTrips} from "../services/tripService";
-import {testTrips} from "../components/api";
+import App from "../../src/App";
+import {getAllTrips} from "../../src/services/tripService";
+import {testTrips} from "../../src/components/api";
 
 beforeEach(() => {
   global.fetch = jest.fn(() =>

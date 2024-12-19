@@ -1,6 +1,6 @@
 // testing the calculator
 
-const calculator = require('../calculator');
+const calculator = require('../../src/calculator');
 
 test('adds 1 to 2 equal 3', () => {
     expect(calculator.sum(1,2)).toBe(3)
