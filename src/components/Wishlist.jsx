@@ -1,5 +1,5 @@
 import React, {} from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+
 
 // deconstruct props
 export default function Wishlist({wishlist, heartItem, removeFromWishlist, clearWishlist}) {
