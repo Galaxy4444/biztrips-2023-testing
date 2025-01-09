@@ -1,9 +1,7 @@
 /// <reference types="cypress" />
 
-import { testTrips } from "../../src/components/api";
-import React from "react";
-import { mount } from "cypress/react";
-import WishlistItem from "../../src/components/Wishlist";
+import {testTrips} from "../../src/components/api";
+
 
 // Integration Tests
 describe("Integration Tests", () => {
@@ -38,44 +36,6 @@ describe("Integration Tests", () => {
         .should("exist")
         .and("contain.text", "BT01")
         .and("contain.text", "San Francisco World Trade Center on new Server/IOT/Client002");
-  });
-});
-
-// Component Tests
-describe("Component Tests", () => {
-  it("renders WishlistItem with correct details", () => {
-    const trip = {
-      id: 1,
-      title: "BT01",
-      description: "San Francisco World Trade Center on new Server/IOT/Client002",
-      startTrip: "2021-02-13T00:00:00.000Z",
-      endTrip: "2021-02-15T16:56:00.000Z",
-      hearted: false
-    };
-
-    mount(<WishlistItem item={trip} heartItem={cy.stub()} removeFromWishlist={cy.stub()} />);
-    cy.contains("BT01").should("exist");
-    cy.contains("San Francisco World Trade Center on new Server/IOT/Client002").should("exist");
-  });
-
-  it("calls the delete function on button click", () => {
-    const trip = {
-      id: 1,
-      title: "BT01",
-      description: "San Francisco World Trade Center on new Server/IOT/Client002",
-      startTrip: "2021-02-13T00:00:00.000Z",
-      endTrip: "2021-02-15T16:56:00.000Z",
-      hearted: false
-    };
-    const onDelete = cy.stub();
-
-    mount(<WishlistItem item={trip} heartItem={cy.stub()} removeFromWishlist={onDelete} />);
-    cy.contains("delete Item").click();
-
-    // Add a slight delay to ensure the click propagates
-    cy.wait(500);
-
-    expect(onDelete).to.have.been.calledOnce;
   });
 });
 

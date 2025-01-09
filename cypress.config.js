@@ -1,5 +1,5 @@
 const { defineConfig } = require('cypress');
-const webpackConfig = require("./webpack.config.js");
+const webpackConfig = require('./webpack.config.js'); // Import your Webpack config
 
 module.exports = defineConfig({
   e2e: {
@@ -11,8 +11,7 @@ module.exports = defineConfig({
     devServer: {
       framework: "react",
       bundler: "webpack",
-      webpackConfig
+      webpackConfig,
     },
-    indexHtmlFile: "cypress/support/component-index.html",
   },
 });
