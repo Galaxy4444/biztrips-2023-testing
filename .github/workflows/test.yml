@@ -1,22 +1,34 @@
+name: Cypress Tests
+
 on:
   push:
     branches-ignore:
-      - main
-
-name: Testing
+      - main # Ignore main, run on feature branches
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up node
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+
       - name: Install dependencies
-        run: |
-          npm install
-      - name: Run tests
-        run: |
-          npm run test
+        run: npm install
+
+      - name: Start Server in Background
+        run: npm run start &
+
+      - name: Wait for Server to Be Ready
+        run: npx wait-on http://localhost:3000
+
+      - name: Run Cypress E2E Tests
+        run: npx cypress run
+
+      - name: Run Cypress Component Tests
+        run: npx cypress run --component
